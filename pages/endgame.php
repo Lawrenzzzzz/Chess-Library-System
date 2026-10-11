@@ -9,21 +9,25 @@
         content="Books on technique, theory and practice for the last phase of the game. Select a book on the shelf to open it.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
-    <link rel="stylesheet" href="assets/css/shelf.css">
+    <link rel="stylesheet" href="../assets/css/shelf.css">
 </head>
 
 <body>
     <div class="app">
-        <nav class="side-nav" aria-label="Main"><a class="logo" href="index.html"><i>&#9822;</i><span><b>The Chess
-                        Room</b><small>A move forward, together</small></span></a>
-            <h4>Community</h4><a class="nav" href="index.html">Announcements</a>
-            <div class="group">Opening</div>
-            <div class="sub"><a class="nav" href="openings/white.html">White</a><a class="nav"
-                    href="openings/black.html">Black</a></div><a class="nav" href="puzzles.html">Puzzles</a><a
-                class="nav" href="middle-game.html">Middle game</a><a class="nav" href="endgame.html"
-                aria-current="page">Endgame</a>
-            <div class="tip"><b>Your next move starts here.</b>A good conversation. A great book. A little better at
-                chess.</div>
+        <nav class="side-nav" aria-label="Main"><a class="logo" href="main_page.php"><i>&#9822;</i>
+        <span><b>The Chess Room</b><small>A move forward, together</small></span></a>
+            <h4>Community</h4>
+            <a class="nav" href="index.html">Announcements</a>
+            <div class="group">Openings</div>
+            <div class="sub">
+                <a class="nav" href="opening/white.php">White</a>
+                <a class="nav" href="opening/black.php">Black</a>
+            </div>
+            <a class="nav" href="puzzles.php">Puzzles</a>
+            <a class="nav" href="middle-game.php">Middle game</a>
+            <a class="nav" href="endgame.php" aria-current="page">Endgame</a>
+            <div class="tip"><b>Your next move starts here.</b>A good conversation. A great book. A little better at chess.
+            </div>
         </nav>
         <div class="main">
             <div class="crumbs">Community &rsaquo; <b>Endgame</b></div>
@@ -35,6 +39,8 @@
                             shelf to open it.</p>
                     </div>
                 </div>
+
+
                 <section class="shelf">
                     <h2>Beginner</h2>
                     <div class="books"><button class="spine" type="button" aria-pressed="false"
@@ -63,19 +69,6 @@
                             aria-label="Fundamental Chess Endings, by Müller &amp; Lamprecht"><span>Fundamental Chess
                                 Endings</span></button></div>
                     <div class="board"></div>
-                </section>
-                <section class="reader" id="reader" aria-live="polite">
-                    <div class="cover" id="r-cover"></div>
-                    <div>
-                        <h3 id="r-title"></h3>
-                        <p class="by" id="r-by"></p>
-                        <dl>
-                            <dt>Level</dt>
-                            <dd id="r-level"></dd>
-                            <dt>Topic</dt>
-                            <dd id="r-topic"></dd>
-                        </dl>
-                    </div>
                 </section>
             </div>
         </div>

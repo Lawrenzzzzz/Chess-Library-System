@@ -19,7 +19,7 @@
 
             <h4>Community</h4>
             <a class="nav" href="main_page.php" aria-current="page">Announcements</a>
-            <div class="group">Opening</div>
+            <div class="group">Openings</div>
             <div class="sub">
                 <a class="nav" href="opening/white.php">White</a>
                 <a class="nav" href="opening/black.php">Black</a>

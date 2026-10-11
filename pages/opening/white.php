@@ -17,7 +17,7 @@
         <span><b>The ChessRoom</b><small>A move forward, together</small></span></a>
             <h4>Community</h4>
             <a class="nav" href="../main_page.php">Announcements</a>
-            <div class="group">Opening</div>
+            <div class="group">Openings</div>
             <div class="sub">
                 <a class="nav" href="../opening/white.php" aria-current="page">White</a>
                 <a class="nav" href="../opening/black.php">Black</a>
@@ -58,19 +58,6 @@
                             data-author="John Emms" data-level="Beginner" data-topic="King&#x27;s pawn openings"
                             aria-label="Starting Out: 1.e4, by John Emms"><span>Starting Out: 1.e4</span></button></div>
                     <div class="board"></div>
-                </section>
-                <section class="reader" id="reader" aria-live="polite">
-                    <div class="cover" id="r-cover"></div>
-                    <div>
-                        <h3 id="r-title"></h3>
-                        <p class="by" id="r-by"></p>
-                        <dl>
-                            <dt>Level</dt>
-                            <dd id="r-level"></dd>
-                            <dt>Topic</dt>
-                            <dd id="r-topic"></dd>
-                        </dl>
-                    </div>
                 </section>
             </div>
         </div>

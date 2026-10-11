@@ -13,16 +13,21 @@
 
 <body>
     <div class="app">
-        <nav class="side-nav" aria-label="Main"><a class="logo" href="../index.html"><i>&#9822;</i><span><b>The Chess
-                        Room</b><small>A move forward, together</small></span></a>
-            <h4>Community</h4><a class="nav" href="../index.html">Announcements</a>
-            <div class="group">Opening</div>
-            <div class="sub"><a class="nav" href="../openings/white.html">White</a><a class="nav"
-                    href="../openings/black.html" aria-current="page">Black</a></div><a class="nav"
-                href="../puzzles.html">Puzzles</a><a class="nav" href="../middle-game.html">Middle game</a><a
-                class="nav" href="../endgame.html">Endgame</a>
-            <div class="tip"><b>Your next move starts here.</b>A good conversation. A great book. A little better at
-                chess.</div>
+        <nav class="side-nav" aria-label="Main"><a class="logo" href="../main_page.php"><i>&#9822;</i>
+        <span><b>The Chess Room</b><small>A move forward, together</small></span></a>
+            <h4>Community</h4>
+            <a class="nav" href="../main_page.php">Announcements</a>
+            <div class="group">Openings</div>
+            <div class="sub">
+                <a class="nav" href="../opening/white.php">White</a>
+                <a class="nav" href="../opening/black.php" aria-current="page">Black</a>
+            </div>
+            <a class="nav" href="../puzzles.php">Puzzles</a>
+            <a class="nav" href="../middle-game.php">Middle game</a>
+            <a class="nav" href="../endgame.php">Endgame</a>
+            <div class="tip">
+                <b>Your next move starts here.</b>A good conversation. A great book. A little better at chess.
+            </div>
         </nav>
         <div class="main">
             <div class="crumbs">Community &rsaquo; <b>Opening &rsaquo; Black</b></div>
@@ -59,19 +64,6 @@
                             aria-label="Starting Out: The King&#x27;s Indian, by Joe Gallagher"><span>Starting Out: The
                                 King&#x27;s Indian</span></button></div>
                     <div class="board"></div>
-                </section>
-                <section class="reader" id="reader" aria-live="polite">
-                    <div class="cover" id="r-cover"></div>
-                    <div>
-                        <h3 id="r-title"></h3>
-                        <p class="by" id="r-by"></p>
-                        <dl>
-                            <dt>Level</dt>
-                            <dd id="r-level"></dd>
-                            <dt>Topic</dt>
-                            <dd id="r-topic"></dd>
-                        </dl>
-                    </div>
                 </section>
             </div>
         </div>
