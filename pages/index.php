@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Libre+Caslon+Display&display=swap">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
 <body>
   <div class="site">
@@ -28,7 +28,7 @@
 
     <main>
       <section class="welcome">
-        <img class="welcome-image" src="assets/chess-library.jpg" alt="A carved wooden knight on a chessboard beside a collection of books" width="1536" height="1024" fetchpriority="high">
+        <img class="welcome-image" src="../assets/chess-library.jpg" alt="A carved wooden knight on a chessboard beside a collection of books" width="1536" height="1024" fetchpriority="high">
         <div class="welcome-shade"></div>
         <div class="welcome-inner">
           <div class="welcome-copy">
@@ -77,7 +77,7 @@
                   </span>
                   <div class="input-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="16" r="1"/><rect x="3" y="10" width="18" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></svg>
-                    <input id="password" name="password" type="password" autocomplete="current-password" maxlength="128" placeholder="Enter your password" required>
+                    <input id="password" name="password" type="password" autocomplete="new-password" required>
                   </div>
                 </label>
 
@@ -155,6 +155,6 @@
       </span>
     </footer>
   </div>
-  <script src="assets/js/app.js" defer></script>
+  <script src="../assets/js/app.js" defer></script>
 </body>
 </html>
