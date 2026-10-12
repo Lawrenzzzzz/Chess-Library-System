@@ -1,3 +1,10 @@
+<?php
+session_start();
+require_once __DIR__ . '/../backend/books_repo.php';
+$role = $_SESSION['role'] ?? 'guest';
+$isAdmin = $role === 'admin';
+$shelves = books_grouped($conn, 'puzzles');
+?>
 <!doctype html>
 <html lang="en">
 
@@ -11,7 +18,7 @@
     <link rel="stylesheet" href="../assets/css/shelf.css">
 </head>
 
-<body>
+<body data-role="<?= htmlspecialchars($role) ?>" data-category="puzzles" data-books-api="../backend/books.php">
     <div class="app">
         <nav class="side-nav" aria-label="Main"><a class="logo" href="main_page.php"><i>&#9822;</i>
         <span><b>The Chess Room</b><small>A move forward, together</small></span></a>
@@ -26,9 +33,12 @@
             <a class="nav" href="puzzles.php" aria-current="page">Puzzles</a>
             <a class="nav" href="middle-game.php">Middle game</a>
             <a class="nav" href="endgame.php">Endgame</a>
-            <div class="tip">
-                <b>Your next move starts here.</b>A good conversation. A great book. A little better at chess.
+            <?php if (isset($_SESSION['user_id'])): ?>
+            <div class="side-account">
+                <small>Signed in as <b><?= htmlspecialchars($_SESSION['user_name'] ?: 'Member') ?></b></small>
+                <a class="logout-btn" href="../backend/logout.php">Log out</a>
             </div>
+            <?php endif; ?>
         </nav>
         <div class="main">
             <div class="crumbs">Community &rsaquo; <b>Puzzles</b></div>
@@ -38,32 +48,16 @@
                         <h1>Puzzles</h1>
                         <p>Puzzle books for training tactics. Select a book on the shelf to open it.</p>
                     </div>
+                    <?php if ($isAdmin): ?>
                     <button class="btn add-book-btn" type="button" data-add-book>Add book</button>
+                    <?php endif; ?>
                 </div>
-                <section class="shelf">
-                    <h2>Tactics</h2>
-                    <div class="books"><button class="spine" type="button" aria-pressed="false"
-                            style="background:#7a2e2e;width:59px;height:219px" data-title="Chess Tactics for Champions"
-                            data-author="Susan Polgar" data-level="Intermediate" data-topic="Tactical themes"
-                            aria-label="Chess Tactics for Champions, by Susan Polgar"><span>Chess Tactics for
-                                Champions</span></button><button class="spine" type="button" aria-pressed="false"
-                            style="background:#2f5d46;width:58px;height:198px"
-                            data-title="1001 Chess Exercises for Beginners" data-author="Franco Masetti"
-                            data-level="Beginner" data-topic="Mixed tactics"
-                            aria-label="1001 Chess Exercises for Beginners, by Franco Masetti"><span>1001 Chess
-                                Exercises for Beginners</span></button><button class="spine" type="button"
-                            aria-pressed="false" style="background:#27415e;width:63px;height:177px"
-                            data-title="The Woodpecker Method" data-author="Axel Smith &amp; Hans Tikkanen"
-                            data-level="Intermediate" data-topic="Repetition training"
-                            aria-label="The Woodpecker Method, by Axel Smith &amp; Hans Tikkanen"><span>The Woodpecker
-                                Method</span></button></div>
-                    <div class="board"></div>
-                </section>
+
+                <?php render_shelves($shelves, '../uploads/books/'); ?>
             </div>
         </div>
     </div>
-    <script src="assets/js/shelf.js"></script>
-    <script src="../assets/js/add-book.js"></script>
+    <script src="../assets/js/books.js"></script>
 </body>
 
 </html>

@@ -1,3 +1,10 @@
+<?php
+session_start();
+require_once __DIR__ . '/../backend/books_repo.php';
+$role = $_SESSION['role'] ?? 'guest';
+$isAdmin = $role === 'admin';
+$shelves = books_grouped($conn, 'middle-game');
+?>
 <!doctype html>
 <html lang="en">
 
@@ -11,7 +18,7 @@
     <link rel="stylesheet" href="../assets/css/shelf.css">
 </head>
 
-<body>
+<body data-role="<?= htmlspecialchars($role) ?>" data-category="middle-game" data-books-api="../backend/books.php">
     <div class="app">
         <nav class="side-nav" aria-label="Main"><a class="logo" href="main_page.php"><i>&#9822;</i>
         <span><b>The Chess Room</b><small>A move forward, together</small></span></a>
@@ -26,9 +33,13 @@
             <a class="nav" href="puzzles.php">Puzzles</a>
             <a class="nav" href="middle-game.php" aria-current="page">Middle game</a>
             <a class="nav" href="endgame.php">Endgame</a>
-            <div class="tip"><b>Your next move starts here.</b>A good conversation. A great book. A little better at
-                chess.
+         
+            <?php if (isset($_SESSION['user_id'])): ?>
+            <div class="side-account">
+                <small>Signed in as <b><?= htmlspecialchars($_SESSION['user_name'] ?: 'Member') ?></b></small>
+                <a class="logout-btn" href="../backend/logout.php">Log out</a>
             </div>
+            <?php endif; ?>
         </nav>
         <div class="main">
             <div class="crumbs">Community &rsaquo; <b>Middle game</b></div>
@@ -38,38 +49,16 @@
                         <h1>Middle game</h1>
                         <p>Books on plans, structures and attack. Select a book on the shelf to open it.</p>
                     </div>
+                    <?php if ($isAdmin): ?>
                     <button class="btn add-book-btn" type="button" data-add-book>Add book</button>
+                    <?php endif; ?>
                 </div>
-                <section class="shelf">
-                    <h2>Strategy</h2>
-                    <div class="books"><button class="spine" type="button" aria-pressed="false"
-                            style="background:#7a2e2e;width:50px;height:198px" data-title="Think Like a Grandmaster"
-                            data-author="Alexander Kotov" data-level="Intermediate" data-topic="Calculation"
-                            aria-label="Think Like a Grandmaster, by Alexander Kotov"><span>Think Like a
-                                Grandmaster</span></button><button class="spine" type="button" aria-pressed="false"
-                            style="background:#2f5d46;width:60px;height:170px" data-title="Pawn Structure Chess"
-                            data-author="Andy Soltis" data-level="Intermediate" data-topic="Plans from pawn structures"
-                            aria-label="Pawn Structure Chess, by Andy Soltis"><span>Pawn Structure Chess</span></button>
-                    </div>
-                    <div class="board"></div>
-                </section>
-                <section class="shelf">
-                    <h2>Attack</h2>
-                    <div class="books"><button class="spine" type="button" aria-pressed="false"
-                            style="background:#27415e;width:56px;height:212px" data-title="The Art of Attack in Chess"
-                            data-author="Vladimir Vukovic" data-level="Intermediate" data-topic="King attack"
-                            aria-label="The Art of Attack in Chess, by Vladimir Vukovic"><span>The Art of Attack in
-                                Chess</span></button><button class="spine" type="button" aria-pressed="false"
-                            style="background:#6b4a1f;width:55px;height:177px" data-title="Zurich 1953"
-                            data-author="David Bronstein" data-level="Advanced" data-topic="Annotated tournament book"
-                            aria-label="Zurich 1953, by David Bronstein"><span>Zurich 1953</span></button></div>
-                    <div class="board"></div>
-                </section>
+
+                <?php render_shelves($shelves, '../uploads/books/'); ?>
             </div>
         </div>
     </div>
-    <script src="assets/js/shelf.js"></script>
-    <script src="../assets/js/add-book.js"></script>
+    <script src="../assets/js/books.js"></script>
 </body>
 
 </html>

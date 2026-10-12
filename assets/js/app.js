@@ -130,6 +130,8 @@
     const btn = document.getElementById('reset-btn');
     const err = document.getElementById('reset-error');
     resetForm.addEventListener('submit', async (ev) => {
+      // No JSON API configured: let the browser POST the form natively.
+      if (!API) return;
       ev.preventDefault();
       err.hidden = true;
       setBusy(btn, true);

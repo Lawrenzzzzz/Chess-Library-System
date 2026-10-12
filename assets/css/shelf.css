@@ -639,3 +639,182 @@ body.ab-lock {
     animation: none;
   }
 }
+/* signed-in account */
+.side-account {
+  margin-top: 26px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+.side-account small {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.side-account small b {
+  color: var(--ink);
+}
+.logout-btn {
+  display: block;
+  text-align: center;
+  padding: 8px 12px;
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  color: var(--green);
+  font-weight: 600;
+  font-size: 13px;
+}
+.logout-btn:hover {
+  background: var(--green);
+  color: #fff;
+}
+/* admin book management */
+.ab-field em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--muted);
+}
+.reader-actions {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.read-btn {
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font: 600 13px "DM Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+.read-btn:hover {
+  background: #17493a;
+}
+.ab-edit,
+.ab-delete {
+  border-radius: 6px;
+  padding: 8px 14px;
+  font: 600 13px "DM Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+.ab-edit {
+  border: 1px solid var(--green);
+  background: #fff;
+  color: var(--green);
+}
+.ab-edit:hover {
+  background: var(--green);
+  color: #fff;
+}
+.ab-delete {
+  border: 1px solid #b42318;
+  background: #fff;
+  color: #b42318;
+}
+.ab-delete:hover {
+  background: #b42318;
+  color: #fff;
+}
+.empty-shelf {
+  margin-top: 34px;
+  padding: 22px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  text-align: center;
+}
+/* pdf reader */
+.pdf-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.pdf-modal[hidden] {
+  display: none;
+}
+.pdf-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 33, 28, 0.65);
+}
+.pdf-dialog {
+  position: relative;
+  width: min(1000px, 100%);
+  height: min(90vh, 1000px);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(15, 30, 24, 0.35);
+  animation: ab-rise 180ms ease both;
+}
+.pdf-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.pdf-title {
+  font-weight: 600;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pdf-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+}
+.pdf-open {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+}
+.pdf-open:hover {
+  text-decoration: underline;
+}
+.pdf-close {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 7px 12px;
+  font: 600 13px "DM Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+.pdf-close:hover {
+  background: var(--bg);
+}
+.pdf-frame {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: #525659;
+}
+@media (max-width: 600px) {
+  .pdf-modal {
+    padding: 0;
+  }
+  .pdf-dialog {
+    height: 100%;
+    border-radius: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pdf-dialog {
+    animation: none;
+  }
+}

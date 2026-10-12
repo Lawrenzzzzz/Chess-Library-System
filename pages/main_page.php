@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!doctype html>
 <html lang="en">
 
@@ -28,8 +29,13 @@
             <a class="nav" href="puzzles.php">Puzzles</a>
             <a class="nav" href="middle-game.php">Middle game</a>
             <a class="nav" href="endgame.php">Endgame</a>
-            <div class="tip"><b>Your next move starts here.</b>A good conversation. A great book. A little better at
-                chess.</div>
+            
+            <?php if (isset($_SESSION['user_id'])): ?>
+            <div class="side-account">
+                <small>Signed in as <b><?= htmlspecialchars($_SESSION['user_name'] ?: 'Member') ?></b></small>
+                <a class="logout-btn" href="../backend/logout.php">Log out</a>
+            </div>
+            <?php endif; ?>
         </nav>
         <div class="main">
             <div class="crumbs">Community &rsaquo; <b>Announcements</b></div>

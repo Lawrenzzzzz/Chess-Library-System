@@ -82,7 +82,7 @@ $notice = (string) ($_GET['notice'] ?? '');
                 <label for="password" data-modes="login signup">
                   <span class="label-row">
                     Password
-                    <button type="button" class="btn btn-link forgot-button" data-mode-btn="forgot" data-modes="login">Forgot password?</button>
+                    <a class="btn btn-link forgot-button" href="reset-password.php" data-modes="login">Reset password</a>
                   </span>
                   <div class="input-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="16" r="1"/><rect x="3" y="10" width="18" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></svg>
@@ -98,17 +98,6 @@ $notice = (string) ($_GET['notice'] ?? '');
                   <span class="btn-label"><?= $mode === 'signup' ? 'Create my account' : 'Sign in to the library' ?></span>
                 </button>
               </form>
-
-              <div data-modes="login signup">
-                <div class="or-divider"><span></span>or continue with<span></span></div>
-                <button class="btn btn-outline form-button google-button" type="button">
-                  <span class="google-mark">G</span>Google
-                </button>
-                <p class="membership-note">
-                  <span id="note-text">New to the library?</span>
-                  <button type="button" class="btn btn-link" id="note-switch">Join our community</button>
-                </p>
-              </div>
             </div>
             <div class="secure-note">A secure space for your chess journey.</div>
           </div>

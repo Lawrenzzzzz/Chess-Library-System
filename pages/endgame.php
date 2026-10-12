@@ -1,3 +1,10 @@
+<?php
+session_start();
+require_once __DIR__ . '/../backend/books_repo.php';
+$role = $_SESSION['role'] ?? 'guest';
+$isAdmin = $role === 'admin';
+$shelves = books_grouped($conn, 'endgame');
+?>
 <!doctype html>
 <html lang="en">
 
@@ -12,7 +19,7 @@
     <link rel="stylesheet" href="../assets/css/shelf.css">
 </head>
 
-<body>
+<body data-role="<?= htmlspecialchars($role) ?>" data-category="endgame" data-books-api="../backend/books.php">
     <div class="app">
         <nav class="side-nav" aria-label="Main"><a class="logo" href="main_page.php"><i>&#9822;</i>
         <span><b>The Chess Room</b><small>A move forward, together</small></span></a>
@@ -27,8 +34,13 @@
             <a class="nav" href="puzzles.php">Puzzles</a>
             <a class="nav" href="middle-game.php">Middle game</a>
             <a class="nav" href="endgame.php" aria-current="page">Endgame</a>
-            <div class="tip"><b>Your next move starts here.</b>A good conversation. A great book. A little better at chess.
+           
+            <?php if (isset($_SESSION['user_id'])): ?>
+            <div class="side-account">
+                <small>Signed in as <b><?= htmlspecialchars($_SESSION['user_name'] ?: 'Member') ?></b></small>
+                <a class="logout-btn" href="../backend/logout.php">Log out</a>
             </div>
+            <?php endif; ?>
         </nav>
         <div class="main">
             <div class="crumbs">Community &rsaquo; <b>Endgame</b></div>
@@ -39,44 +51,16 @@
                         <p>Books on technique, theory and practice for the last phase of the game. Select a book on the
                             shelf to open it.</p>
                     </div>
+                    <?php if ($isAdmin): ?>
                     <button class="btn add-book-btn" type="button" data-add-book>Add book</button>
+                    <?php endif; ?>
                 </div>
 
-
-                <section class="shelf">
-                    <h2>Beginner</h2>
-                    <div class="books"><button class="spine" type="button" aria-pressed="false"
-                            style="background:#7a2e2e;width:52px;height:184px"
-                            data-title="Silman&#x27;s Complete Endgame Course" data-author="Jeremy Silman"
-                            data-level="Beginner to master" data-topic="Endgames by rating level"
-                            aria-label="Silman&#x27;s Complete Endgame Course, by Jeremy Silman"><span>Silman&#x27;s
-                                Complete Endgame Course</span></button><button class="spine" type="button"
-                            aria-pressed="false" style="background:#2f5d46;width:56px;height:212px"
-                            data-title="100 Endgames You Must Know" data-author="Jesus de la Villa"
-                            data-level="Club player" data-topic="Essential positions"
-                            aria-label="100 Endgames You Must Know, by Jesus de la Villa"><span>100 Endgames You Must
-                                Know</span></button></div>
-                    <div class="board"></div>
-                </section>
-                <section class="shelf">
-                    <h2>Advanced</h2>
-                    <div class="books"><button class="spine" type="button" aria-pressed="false"
-                            style="background:#27415e;width:56px;height:212px"
-                            data-title="Dvoretsky&#x27;s Endgame Manual" data-author="Mark Dvoretsky"
-                            data-level="Advanced" data-topic="Deep technique and theory"
-                            aria-label="Dvoretsky&#x27;s Endgame Manual, by Mark Dvoretsky"><span>Dvoretsky&#x27;s
-                                Endgame Manual</span></button><button class="spine" type="button" aria-pressed="false"
-                            style="background:#6b4a1f;width:53px;height:205px" data-title="Fundamental Chess Endings"
-                            data-author="Müller &amp; Lamprecht" data-level="Advanced" data-topic="Reference"
-                            aria-label="Fundamental Chess Endings, by Müller &amp; Lamprecht"><span>Fundamental Chess
-                                Endings</span></button></div>
-                    <div class="board"></div>
-                </section>
+                <?php render_shelves($shelves, '../uploads/books/'); ?>
             </div>
         </div>
     </div>
-    <script src="assets/js/shelf.js"></script>
-    <script src="../assets/js/add-book.js"></script>
+    <script src="../assets/js/books.js"></script>
 </body>
 
 </html>

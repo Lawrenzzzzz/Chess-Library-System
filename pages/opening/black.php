@@ -1,3 +1,10 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../backend/books_repo.php';
+$role = $_SESSION['role'] ?? 'guest';
+$isAdmin = $role === 'admin';
+$shelves = books_grouped($conn, 'black');
+?>
 <!doctype html>
 <html lang="en">
 
@@ -11,7 +18,7 @@
     <link rel="stylesheet" href="../../assets/css/shelf.css">
 </head>
 
-<body>
+<body data-role="<?= htmlspecialchars($role) ?>" data-category="black" data-books-api="../../backend/books.php">
     <div class="app">
         <nav class="side-nav" aria-label="Main"><a class="logo" href="../main_page.php"><i>&#9822;</i>
         <span><b>The Chess Room</b><small>A move forward, together</small></span></a>
@@ -26,9 +33,13 @@
             <a class="nav" href="../puzzles.php">Puzzles</a>
             <a class="nav" href="../middle-game.php">Middle game</a>
             <a class="nav" href="../endgame.php">Endgame</a>
-            <div class="tip">
-                <b>Your next move starts here.</b>A good conversation. A great book. A little better at chess.
+            
+            <?php if (isset($_SESSION['user_id'])): ?>
+            <div class="side-account">
+                <small>Signed in as <b><?= htmlspecialchars($_SESSION['user_name'] ?: 'Member') ?></b></small>
+                <a class="logout-btn" href="../../backend/logout.php">Log out</a>
             </div>
+            <?php endif; ?>
         </nav>
         <div class="main">
             <div class="crumbs">Community &rsaquo; <b>Opening &rsaquo; Black</b></div>
@@ -38,40 +49,16 @@
                         <h1>Openings for Black</h1>
                         <p>Defences and replies to 1.e4 and 1.d4. Select a book on the shelf to open it.</p>
                     </div>
+                    <?php if ($isAdmin): ?>
                     <button class="btn add-book-btn" type="button" data-add-book>Add book</button>
+                    <?php endif; ?>
                 </div>
-                <section class="shelf">
-                    <h2>Against 1.e4</h2>
-                    <div class="books"><button class="spine" type="button" aria-pressed="false"
-                            style="background:#7a2e2e;width:56px;height:212px" data-title="Starting Out: The Sicilian"
-                            data-author="John Emms" data-level="Intermediate" data-topic="Sicilian Defence"
-                            aria-label="Starting Out: The Sicilian, by John Emms"><span>Starting Out: The
-                                Sicilian</span></button><button class="spine" type="button" aria-pressed="false"
-                            style="background:#2f5d46;width:59px;height:219px" data-title="Starting Out: The Caro-Kann"
-                            data-author="Joe Gallagher" data-level="Beginner" data-topic="Caro-Kann"
-                            aria-label="Starting Out: The Caro-Kann, by Joe Gallagher"><span>Starting Out: The
-                                Caro-Kann</span></button><button class="spine" type="button" aria-pressed="false"
-                            style="background:#27415e;width:54px;height:226px" data-title="Play the Caro-Kann"
-                            data-author="Jovanka Houska" data-level="Club player" data-topic="Caro-Kann"
-                            aria-label="Play the Caro-Kann, by Jovanka Houska"><span>Play the Caro-Kann</span></button>
-                    </div>
-                    <div class="board"></div>
-                </section>
-                <section class="shelf">
-                    <h2>Against 1.d4</h2>
-                    <div class="books"><button class="spine" type="button" aria-pressed="false"
-                            style="background:#6b4a1f;width:49px;height:177px"
-                            data-title="Starting Out: The King&#x27;s Indian" data-author="Joe Gallagher"
-                            data-level="Intermediate" data-topic="King&#x27;s Indian Defence"
-                            aria-label="Starting Out: The King&#x27;s Indian, by Joe Gallagher"><span>Starting Out: The
-                                King&#x27;s Indian</span></button></div>
-                    <div class="board"></div>
-                </section>
+
+                <?php render_shelves($shelves, '../../uploads/books/'); ?>
             </div>
         </div>
     </div>
-    <script src="../assets/js/shelf.js"></script>
-    <script src="../../assets/js/add-book.js"></script>
+    <script src="../../assets/js/books.js"></script>
 </body>
 
 </html>
