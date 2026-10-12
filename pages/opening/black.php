@@ -19,6 +19,7 @@
             <a class="nav" href="../main_page.php">Announcements</a>
             <div class="group">Openings</div>
             <div class="sub">
+                <a class="nav" href="../opening/fundamentals.php">Fundamentals</a>
                 <a class="nav" href="../opening/white.php">White</a>
                 <a class="nav" href="../opening/black.php" aria-current="page">Black</a>
             </div>
@@ -37,6 +38,7 @@
                         <h1>Openings for Black</h1>
                         <p>Defences and replies to 1.e4 and 1.d4. Select a book on the shelf to open it.</p>
                     </div>
+                    <button class="btn add-book-btn" type="button" data-add-book>Add book</button>
                 </div>
                 <section class="shelf">
                     <h2>Against 1.e4</h2>
@@ -69,6 +71,7 @@
         </div>
     </div>
     <script src="../assets/js/shelf.js"></script>
+    <script src="../../assets/js/add-book.js"></script>
 </body>
 
 </html>

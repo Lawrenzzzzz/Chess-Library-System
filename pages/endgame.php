@@ -17,9 +17,10 @@
         <nav class="side-nav" aria-label="Main"><a class="logo" href="main_page.php"><i>&#9822;</i>
         <span><b>The Chess Room</b><small>A move forward, together</small></span></a>
             <h4>Community</h4>
-            <a class="nav" href="index.html">Announcements</a>
+            <a class="nav" href="main_page.php">Announcements</a>
             <div class="group">Openings</div>
             <div class="sub">
+                <a class="nav" href="opening/fundamentals.php">Fundamentals</a>
                 <a class="nav" href="opening/white.php">White</a>
                 <a class="nav" href="opening/black.php">Black</a>
             </div>
@@ -38,6 +39,7 @@
                         <p>Books on technique, theory and practice for the last phase of the game. Select a book on the
                             shelf to open it.</p>
                     </div>
+                    <button class="btn add-book-btn" type="button" data-add-book>Add book</button>
                 </div>
 
 
@@ -74,6 +76,7 @@
         </div>
     </div>
     <script src="assets/js/shelf.js"></script>
+    <script src="../assets/js/add-book.js"></script>
 </body>
 
 </html>

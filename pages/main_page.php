@@ -21,6 +21,7 @@
             <a class="nav" href="main_page.php" aria-current="page">Announcements</a>
             <div class="group">Openings</div>
             <div class="sub">
+                <a class="nav" href="opening/fundamentals.php">Fundamentals</a>
                 <a class="nav" href="opening/white.php">White</a>
                 <a class="nav" href="opening/black.php">Black</a>
             </div>

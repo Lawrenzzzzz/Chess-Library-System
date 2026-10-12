@@ -19,8 +19,9 @@
             <a class="nav" href="main_page.php">Announcements</a>
             <div class="group">Openings</div>
             <div class="sub">
+                <a class="nav" href="opening/fundamentals.php">Fundamentals</a>
                 <a class="nav" href="opening/white.php">White</a>
-                <a class="nav" href="openings/black.php">Black</a>
+                <a class="nav" href="opening/black.php">Black</a>
             </div>
             <a class="nav" href="puzzles.php">Puzzles</a>
             <a class="nav" href="middle-game.php" aria-current="page">Middle game</a>
@@ -37,6 +38,7 @@
                         <h1>Middle game</h1>
                         <p>Books on plans, structures and attack. Select a book on the shelf to open it.</p>
                     </div>
+                    <button class="btn add-book-btn" type="button" data-add-book>Add book</button>
                 </div>
                 <section class="shelf">
                     <h2>Strategy</h2>
@@ -67,6 +69,7 @@
         </div>
     </div>
     <script src="assets/js/shelf.js"></script>
+    <script src="../assets/js/add-book.js"></script>
 </body>
 
 </html>

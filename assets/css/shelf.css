@@ -491,3 +491,151 @@ a {
     transition: none;
   }
 }
+/* add book */
+.heading {
+  flex-wrap: wrap;
+}
+.add-book-btn {
+  flex: none;
+}
+.spine.ab-new {
+  animation: ab-pop 220ms ease both;
+}
+@keyframes ab-pop {
+  from {
+    opacity: 0;
+    scale: 0.8;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+body.ab-lock {
+  overflow: hidden;
+}
+.ab-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.ab-modal[hidden] {
+  display: none;
+}
+.ab-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 33, 28, 0.55);
+}
+.ab-dialog {
+  position: relative;
+  width: min(420px, 100%);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 18px 48px rgba(15, 30, 24, 0.25);
+  animation: ab-rise 180ms ease both;
+}
+.ab-dialog h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.ab-sub {
+  margin: 6px 0 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.ab-field {
+  display: block;
+  margin-bottom: 14px;
+}
+.ab-field > span {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.ab-field input[type="text"],
+.ab-field input[type="file"] {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 9px 11px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  background: #fff;
+}
+.ab-field input[type="text"]:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px var(--mint);
+}
+.ab-field input[type="file"] {
+  padding: 7px 11px;
+  cursor: pointer;
+}
+.ab-field input[aria-invalid="true"] {
+  border-color: #b42318;
+  box-shadow: 0 0 0 2px #f7d4d0;
+}
+.ab-error {
+  margin: 0 0 12px;
+  color: #b42318;
+  font-size: 12px;
+}
+.ab-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+.ab-cancel,
+.ab-submit {
+  border-radius: 6px;
+  padding: 9px 14px;
+  font: 600 13px "DM Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+.ab-cancel {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+}
+.ab-cancel:hover {
+  background: var(--bg);
+}
+.ab-submit {
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #fff;
+  padding: 9px 16px;
+}
+.ab-submit:hover {
+  background: #17493a;
+}
+@keyframes ab-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 600px) {
+  .add-book-btn {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spine.ab-new,
+  .ab-dialog {
+    animation: none;
+  }
+}

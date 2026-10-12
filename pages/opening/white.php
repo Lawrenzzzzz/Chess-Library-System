@@ -19,6 +19,7 @@
             <a class="nav" href="../main_page.php">Announcements</a>
             <div class="group">Openings</div>
             <div class="sub">
+                <a class="nav" href="../opening/fundamentals.php">Fundamentals</a>
                 <a class="nav" href="../opening/white.php" aria-current="page">White</a>
                 <a class="nav" href="../opening/black.php">Black</a>
             </div>
@@ -37,6 +38,7 @@
                         <h1>Openings for White</h1>
                         <p>Repertoire books for the first move. Select a book on the shelf to open it.</p>
                     </div>
+                    <button class="btn add-book-btn" type="button" data-add-book>Add book</button>
                 </div>
                 <section class="shelf">
                     <h2>1.d4</h2>
@@ -63,6 +65,7 @@
         </div>
     </div>
     <script src="../assets/js/shelf.js"></script>
+    <script src="../../assets/js/add-book.js"></script>
 </body>
 
 </html>
