@@ -74,60 +74,19 @@
   }
 
   /* ---------------- PDF reader (all users) ---------------- */
-  var viewer = document.createElement("div");
-  viewer.className = "pdf-modal";
-  viewer.hidden = true;
-  viewer.innerHTML = [
-    '<div class="pdf-backdrop" data-pdf-close></div>',
-    '<div class="pdf-dialog" role="dialog" aria-modal="true" aria-label="Book reader">',
-    '  <div class="pdf-head">',
-    '    <span class="pdf-title" data-pdf-title></span>',
-    '    <div class="pdf-tools">',
-    '      <a class="pdf-open" data-pdf-open target="_blank" rel="noopener">Open in new tab</a>',
-    '      <button type="button" class="pdf-close" data-pdf-close>Close</button>',
-    '    </div>',
-    '  </div>',
-    '  <iframe class="pdf-frame" data-pdf-frame title="PDF viewer"></iframe>',
-    "</div>"
-  ].join("");
-  document.body.appendChild(viewer);
-
-  var frame = viewer.querySelector("[data-pdf-frame]");
-  var frameTitle = viewer.querySelector("[data-pdf-title]");
-  var openLink = viewer.querySelector("[data-pdf-open]");
-
-  function openViewer(url, title) {
-    frameTitle.textContent = title || "Book";
-    openLink.href = url;
-    frame.src = url;
-    viewer.hidden = false;
-    document.body.classList.add("ab-lock");
-  }
-
-  function closeViewer() {
-    viewer.hidden = true;
-    frame.src = "about:blank";
-    document.body.classList.remove("ab-lock");
-  }
-
   if (reader) {
     reader.querySelector("[data-read]").addEventListener("click", function () {
       var btn = this;
-      if (btn.dataset.url) {
-        openViewer(btn.dataset.url, btn.dataset.title);
+      if (!btn.dataset.url) {
+        return;
+      }
+      if (window.ChessPDF) {
+        window.ChessPDF.open(btn.dataset.url, btn.dataset.title);
+      } else {
+        window.open(btn.dataset.url, "_blank", "noopener");
       }
     });
   }
-
-  Array.prototype.forEach.call(viewer.querySelectorAll("[data-pdf-close]"), function (el) {
-    el.addEventListener("click", closeViewer);
-  });
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !viewer.hidden) {
-      closeViewer();
-    }
-  });
 
   if (!isAdmin) {
     return;

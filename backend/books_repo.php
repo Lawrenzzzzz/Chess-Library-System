@@ -23,6 +23,38 @@ function books_grouped(mysqli $conn, string $category): array
     return $groups;
 }
 
+function all_books(mysqli $conn): array
+{
+    $rows = [];
+    $result = $conn->query(
+        'SELECT id, category, title, author, color, file
+         FROM books
+         ORDER BY id DESC'
+    );
+
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $rows[] = $row;
+        }
+    }
+
+    return $rows;
+}
+
+function category_label(string $key): string
+{
+    $map = [
+        'fundamentals' => 'Opening fundamentals',
+        'white'        => 'Openings for White',
+        'black'        => 'Openings for Black',
+        'puzzles'      => 'Puzzles',
+        'middle-game'  => 'Middle game',
+        'endgame'      => 'Endgame',
+    ];
+
+    return $map[$key] ?? ucfirst(str_replace('-', ' ', $key));
+}
+
 function render_shelves(array $groups, string $fileBase = ''): void
 {
     if (!$groups) {

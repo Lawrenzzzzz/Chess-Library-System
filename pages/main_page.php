@@ -1,4 +1,12 @@
-<?php session_start(); ?>
+<?php
+session_start();
+require_once __DIR__ . '/../backend/announcements_repo.php';
+require_once __DIR__ . '/../backend/books_repo.php';
+$role = $_SESSION['role'] ?? 'guest';
+$isAdmin = $role === 'admin';
+$announcements = announcements_all($conn);
+$shelfBooks = all_books($conn);
+?>
 <!doctype html>
 <html lang="en">
 
@@ -12,7 +20,7 @@
     <link rel="stylesheet" href="../assets/css/shelf.css">
 </head>
 
-<body>
+<body data-role="<?= htmlspecialchars($role) ?>" data-announcements-api="../backend/announcements.php">
     <div class="app">
         <nav class="side-nav" aria-label="Main">
             <a class="logo" href="main_page.php"><i>&#9822;</i>
@@ -45,7 +53,11 @@
                         <h1>Announcements</h1>
                         <p>The latest news, updates, and a little inspiration.</p>
                     </div>
+                    <?php if ($isAdmin): ?>
+                    <button class="btn add-book-btn" type="button" data-add-announcement>New announcement</button>
+                    <?php else: ?>
                     <span class="pill">Our community is growing</span>
+                    <?php endif; ?>
                 </div>
                 <section class="hero" aria-labelledby="hh">
                     <div class="hero-copy">
@@ -57,61 +69,42 @@
                 </section>
                 <div class="cols">
                     <section>
-                        <h2>Community announcements<span class="n">3</span></h2>
-                        <article class="post">
-                            <div class="who"><span class="av">MR</span><span>Mark Rosario<span
-                                        class="badge">Admin</span><small>Today at 9:30 AM</small></span><span
-                                    class="pinned">Pinned announcement</span></div>
-                            <h3>A new home for our chess community</h3>
-                            <p>Welcome to The Chess Room! A place for curious minds, better moves, and a shared love of
-                                the game. Explore the opening rooms, sharpen your tactics, and discover your next great
-                                chess read.</p>
-                            <p>This is just the beginning. We're glad you're here.</p><span class="tag">Community
-                                update</span>
-                        </article>
-                        <article class="post">
-                            <div class="who"><span class="av">MR</span><span>Mark Rosario<span
-                                        class="badge">Admin</span><small>Yesterday</small></span></div>
-                            <h3>New shelf: endgame books</h3>
-                            <p>The endgame room now lists books on technique and theory.</p><span
-                                class="tag">Library</span>
-                        </article>
-                        <article class="post">
-                            <div class="who"><span class="av">MR</span><span>Mark Rosario<span
-                                        class="badge">Admin</span><small>Last week</small></span></div>
-                            <h3>Share a book you love</h3>
-                            <p>Tell us which chess book shaped your game and credit the author.</p><span
-                                class="tag">Community update</span>
-                        </article>
+                        <h2>Community announcements<span class="n"><?= count($announcements) ?></span></h2>
+                        <?php render_announcements($announcements, $isAdmin); ?>
                     </section>
                     <aside class="shelf-side" id="bookshelf">
-                        <h2>From the bookshelf <a href="endgame.html">View all</a></h2>
-                        <div class="row">
-                            <div class="mini" style="background:#16181a"></div>
-                            <div>
-                                <h3>My System</h3>
-                                <p>Aron Nimzowitsch</p><small>Shared by Daniel K.</small>
-                            </div>
+                        <h2>From the bookshelf
+                            <button type="button" class="view-all" data-shelf-toggle hidden>View all</button>
+                        </h2>
+                        <?php if ($shelfBooks): ?>
+                        <div class="shelf-list" data-shelf-list>
+                            <?php foreach ($shelfBooks as $i => $b):
+                                $hasFile = !empty($b['file']);
+                                $fileUrl = $hasFile ? '../uploads/books/' . rawurlencode($b['file']) : '';
+                                $title = htmlspecialchars($b['title'], ENT_QUOTES);
+                            ?>
+                            <button class="row<?= $i >= 4 ? ' shelf-extra' : '' ?><?= $hasFile ? '' : ' is-empty' ?>"
+                                type="button"<?= $hasFile ? ' data-file="' . htmlspecialchars($fileUrl, ENT_QUOTES) . '" data-title="' . $title . '"' : ' disabled' ?>>
+                                <span class="mini" style="background:<?= htmlspecialchars($b['color'], ENT_QUOTES) ?>"></span>
+                                <span class="shelf-info">
+                                    <span class="shelf-title"><?= htmlspecialchars($b['title']) ?></span>
+                                    <span class="shelf-author"><?= htmlspecialchars($b['author']) ?></span>
+                                    <span class="shelf-meta"><?= htmlspecialchars(category_label($b['category'])) ?> &middot; <?= $hasFile ? 'Read PDF' : 'No PDF yet' ?></span>
+                                </span>
+                            </button>
+                            <?php endforeach; ?>
                         </div>
-                        <div class="row">
-                            <div class="mini" style="background:#8a5a1f"></div>
-                            <div>
-                                <h3>Silman's Complete Endgame Course</h3>
-                                <p>Jeremy Silman</p><small>Shared by Alex R.</small>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mini" style="background:#2b5a8a"></div>
-                            <div>
-                                <h3>Fundamental Chess Openings</h3>
-                                <p>Paul van der Sterren</p><small>Shared by Sarah M.</small>
-                            </div>
-                        </div>
+                        <?php else: ?>
+                        <p class="shelf-empty">No books yet.</p>
+                        <?php endif; ?>
                     </aside>
                 </div>
             </div>
         </div>
     </div>
+    <script src="../assets/js/pdf-viewer.js"></script>
+    <script src="../assets/js/bookshelf.js"></script>
+    <script src="../assets/js/announcements.js"></script>
 </body>
 
 </html>

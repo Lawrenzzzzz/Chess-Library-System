@@ -57,6 +57,7 @@ $shelves = books_grouped($conn, 'puzzles');
             </div>
         </div>
     </div>
+    <script src="../assets/js/pdf-viewer.js"></script>
     <script src="../assets/js/books.js"></script>
 </body>
 
