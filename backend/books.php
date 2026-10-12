@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/dbcon.php';
 
 define('UPLOAD_DIR', __DIR__ . '/../uploads/books/');
-define('MAX_UPLOAD_BYTES', 25 * 1024 * 1024); // 25 MB
+define('MAX_UPLOAD_BYTES', 10 * 1024 * 1024); // 10 MB (InfinityFree PHP limit)
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -45,13 +45,13 @@ function upload_pdf(string $field, bool $required, string &$error): ?array
 
     if ($file['error'] !== UPLOAD_ERR_OK) {
         $error = $file['error'] === UPLOAD_ERR_INI_SIZE || $file['error'] === UPLOAD_ERR_FORM_SIZE
-            ? 'That PDF is too large (max 25 MB).'
+            ? 'That PDF is too large (max 10 MB).'
             : 'The upload failed. Please try again.';
         return null;
     }
 
     if ($file['size'] > MAX_UPLOAD_BYTES) {
-        $error = 'That PDF is too large (max 25 MB).';
+        $error = 'That PDF is too large (max 10 MB).';
         return null;
     }
 
