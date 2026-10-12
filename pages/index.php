@@ -1,3 +1,8 @@
+<?php
+$mode   = isset($_GET['signup']) ? 'signup' : 'login';
+$error  = (string) ($_GET['error'] ?? '');
+$notice = (string) ($_GET['notice'] ?? '');
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -43,7 +48,7 @@
 
           <!-- Member panel -->
           <div class="member-panel" id="member-access">
-            <div id="auth-guest" data-mode="login">
+            <div id="auth-guest" data-mode="<?= htmlspecialchars($mode) ?>">
               <span class="panel-symbol">♞</span>
               <h2 id="panel-title">Welcome back.</h2>
               <p class="panel-intro" id="panel-intro">Your next chapter in chess starts here.</p>
@@ -53,7 +58,11 @@
                 <button type="button" class="btn btn-ghost auth-tab" data-mode-btn="signup">Create account</button>
               </div>
 
-              <form id="member-form" class="member-fields">
+              <p class="form-error" id="form-error"<?= $error === '' ? ' hidden' : '' ?>><?= htmlspecialchars($error) ?></p>
+              <p class="form-notice" id="form-notice"<?= $notice === '' ? ' hidden' : '' ?>><?= htmlspecialchars($notice) ?></p>
+
+              <form action="../backend/createAccount.php" method="POST" class="member-fields" id="member-form">
+                <input type="hidden" name="action" id="auth-action" value="<?= htmlspecialchars($mode) ?>">
                 <label for="name" data-modes="signup" hidden>
                   Full name
                   <div class="input-wrap">
@@ -78,11 +87,15 @@
                   <div class="input-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="16" r="1"/><rect x="3" y="10" width="18" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></svg>
                     <input id="password" name="password" type="password" autocomplete="new-password" required>
+                    <button type="button" class="btn password-toggle" id="pw-toggle" title="Show password" aria-label="Show password">
+                      <span class="pw-show"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg></span>
+                      <span class="pw-hide" hidden><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/></svg></span>
+                    </button>
                   </div>
                 </label>
 
                 <button class="btn btn-default form-button" type="submit" id="submit-btn">
-                  <span class="btn-label">Sign in to the library</span>
+                  <span class="btn-label"><?= $mode === 'signup' ? 'Create my account' : 'Sign in to the library' ?></span>
                 </button>
               </form>
 

@@ -42,7 +42,9 @@
       forgot: { title: 'Reset password.', intro: 'Enter your email and we will send you a reset link.', btn: 'Send reset link', note: '', switchTo: 'login', switchText: '' },
     };
 
-    function setMode(mode) {
+    const actionInput = document.getElementById('auth-action');
+
+    function setMode(mode, clearMessages = true) {
       guest.dataset.mode = mode;
       guest.querySelectorAll('[data-modes]').forEach((el) => {
         el.hidden = !el.dataset.modes.split(' ').includes(mode);
@@ -61,29 +63,38 @@
       nameInput.required = mode === 'signup';
       pw.autocomplete = mode === 'signup' ? 'new-password' : 'current-password';
       pw.placeholder = mode === 'signup' ? 'At least 8 characters' : 'Enter your password';
-      notice.hidden = true;
-      showError('');
+      if (actionInput) actionInput.value = mode;
+      if (clearMessages) {
+        if (notice) notice.hidden = true;
+        showError('');
+      }
     }
 
     guest.querySelectorAll('[data-mode-btn]').forEach((b) =>
       b.addEventListener('click', () => setMode(b.dataset.modeBtn)));
     noteSwitch.addEventListener('click', () => setMode(noteSwitch.dataset.target || 'signup'));
-    setMode('login');
+    setMode(guest.dataset.mode || 'login', false);
 
     // Show / hide password
     const toggle = document.getElementById('pw-toggle');
-    toggle.addEventListener('click', () => {
-      const show = pw.type === 'password';
-      pw.type = show ? 'text' : 'password';
-      toggle.querySelector('.pw-show').hidden = show;
-      toggle.querySelector('.pw-hide').hidden = !show;
-      toggle.title = toggle.ariaLabel = show ? 'Hide password' : 'Show password';
-    });
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        const show = pw.type === 'password';
+        pw.type = show ? 'text' : 'password';
+        toggle.querySelector('.pw-show').hidden = show;
+        toggle.querySelector('.pw-hide').hidden = !show;
+        toggle.title = toggle.ariaLabel = show ? 'Hide password' : 'Show password';
+      });
+    }
 
     form.addEventListener('submit', async (ev) => {
-      ev.preventDefault();
-      showError(''); notice.hidden = true;
       const mode = guest.dataset.mode;
+
+      // No JSON API configured on this page: let the browser POST the form natively.
+      if (!API) return;
+
+      ev.preventDefault();
+      showError(''); if (notice) notice.hidden = true;
       const payload = { action: mode, email: form.email.value };
       if (mode !== 'forgot') payload.password = pw.value;
       if (mode === 'signup') payload.name = nameInput.value;
