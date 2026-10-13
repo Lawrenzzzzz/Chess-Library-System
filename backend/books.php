@@ -162,7 +162,8 @@ if ($action === 'update') {
     $stmt = $conn->prepare('SELECT file FROM books WHERE id = ? LIMIT 1');
     $stmt->bind_param('i', $id);
     $stmt->execute();
-    $existing = $stmt->get_result()->fetch_assoc();
+    $stmt->bind_result($existingFile);
+    $existing = $stmt->fetch() ? ['file' => $existingFile] : null;
     $stmt->close();
 
     if (!$existing) {
@@ -216,7 +217,8 @@ if ($action === 'delete') {
     $stmt = $conn->prepare('SELECT file FROM books WHERE id = ? LIMIT 1');
     $stmt->bind_param('i', $id);
     $stmt->execute();
-    $existing = $stmt->get_result()->fetch_assoc();
+    $stmt->bind_result($existingFile);
+    $existing = $stmt->fetch() ? ['file' => $existingFile] : null;
     $stmt->close();
 
     if (!$existing) {

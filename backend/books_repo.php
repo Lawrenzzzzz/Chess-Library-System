@@ -12,11 +12,27 @@ function books_grouped(mysqli $conn, string $category): array
     );
     $stmt->bind_param('s', $category);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->bind_result(
+        $id, $section, $title, $author, $level, $topic,
+        $color, $width, $height, $file, $originalName
+    );
 
-    while ($row = $result->fetch_assoc()) {
-        $section = $row['section'] !== '' ? $row['section'] : 'General';
-        $groups[$section][] = $row;
+    while ($stmt->fetch()) {
+        $row = [
+            'id'            => $id,
+            'section'       => $section,
+            'title'         => $title,
+            'author'        => $author,
+            'level'         => $level,
+            'topic'         => $topic,
+            'color'         => $color,
+            'width'         => $width,
+            'height'        => $height,
+            'file'          => $file,
+            'original_name' => $originalName,
+        ];
+        $sectionKey = $row['section'] !== '' ? $row['section'] : 'General';
+        $groups[$sectionKey][] = $row;
     }
 
     $stmt->close();

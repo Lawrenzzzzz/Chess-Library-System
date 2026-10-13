@@ -33,7 +33,16 @@ if ($action === 'login') {
     $stmt = $conn->prepare('SELECT id, name, role, password FROM users WHERE email = ? LIMIT 1');
     $stmt->bind_param('s', $email);
     $stmt->execute();
-    $user = $stmt->get_result()->fetch_assoc();
+    $user = null;
+    $stmt->bind_result($userId, $userName, $userRole, $userPassword);
+    if ($stmt->fetch()) {
+        $user = [
+            'id'       => $userId,
+            'name'     => $userName,
+            'role'     => $userRole,
+            'password' => $userPassword,
+        ];
+    }
     $stmt->close();
 
     if (!$user || !password_verify($password, $user['password'])) {

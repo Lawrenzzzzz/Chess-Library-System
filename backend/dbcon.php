@@ -1,7 +1,7 @@
 <?php
 
 $host = $_SERVER['HTTP_HOST'] ?? ($_SERVER['SERVER_NAME'] ?? '');
-$isLocal = str_starts_with($host, 'localhost') || str_starts_with($host, '127.0.0.1');
+$isLocal = (strpos($host, 'localhost') === 0) || (strpos($host, '127.0.0.1') === 0);
 
 if ($isLocal) {
     $dbHost = 'localhost';

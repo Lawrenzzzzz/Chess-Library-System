@@ -36,7 +36,8 @@ if ($password !== $confirm) {
 $stmt = $conn->prepare('SELECT id FROM users WHERE email = ? LIMIT 1');
 $stmt->bind_param('s', $email);
 $stmt->execute();
-$user = $stmt->get_result()->fetch_assoc();
+$stmt->bind_result($userId);
+$user = $stmt->fetch() ? ['id' => $userId] : null;
 $stmt->close();
 
 if (!$user) {
