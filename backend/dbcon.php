@@ -11,11 +11,13 @@ if ($isLocal) {
 } else {
     $dbHost = 'sql102.infinityfree.com';
     $dbUser = 'if0_43156422';
-    $dbPass = 'hlpAvlsK6P9';
+    $dbPass = 'sdbyf27n';
     $dbName = 'if0_43156422_chess_library';
 }
 
-$conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+mysqli_report(MYSQLI_REPORT_OFF);
+
+$conn = @new mysqli($dbHost, $dbUser, $dbPass, $dbName);
 
 if ($conn->connect_error) {
     http_response_code(500);
