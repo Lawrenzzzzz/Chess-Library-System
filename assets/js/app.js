@@ -35,6 +35,8 @@
     const noteSwitch = document.getElementById('note-switch');
     const pw = document.getElementById('password');
     const nameInput = document.getElementById('name');
+    const modal = document.getElementById('auth-modal');
+    const toggle = document.getElementById('pw-toggle');
 
     const copy = {
       login:  { title: 'Welcome back.', intro: 'Your next chapter in chess starts here.', btn: 'Sign in to the library', note: 'New to the library?', switchTo: 'signup', switchText: 'Join our community' },
@@ -43,6 +45,19 @@
     };
 
     const actionInput = document.getElementById('auth-action');
+
+    // Show / hide password
+    function setPasswordVisible(visible) {
+      pw.type = visible ? 'text' : 'password';
+      if (!toggle) return;
+      const showIcon = toggle.querySelector('.pw-show');
+      const hideIcon = toggle.querySelector('.pw-hide');
+      if (showIcon) showIcon.hidden = visible;
+      if (hideIcon) hideIcon.hidden = !visible;
+      toggle.title = visible ? 'Hide password' : 'Show password';
+      toggle.setAttribute('aria-label', toggle.title);
+      toggle.setAttribute('aria-pressed', visible ? 'true' : 'false');
+    }
 
     function setMode(mode, clearMessages = true) {
       guest.dataset.mode = mode;
@@ -56,13 +71,17 @@
       title.textContent = c.title;
       intro.textContent = c.intro;
       label.textContent = c.btn;
-      noteText.textContent = c.note;
-      noteSwitch.textContent = c.switchText;
-      noteSwitch.dataset.target = c.switchTo;
+      if (noteText) noteText.textContent = c.note;
+      if (noteSwitch) {
+        noteSwitch.textContent = c.switchText;
+        noteSwitch.dataset.target = c.switchTo;
+        noteSwitch.hidden = !c.switchText;
+      }
       pw.required = mode !== 'forgot';
       nameInput.required = mode === 'signup';
       pw.autocomplete = mode === 'signup' ? 'new-password' : 'current-password';
       pw.placeholder = mode === 'signup' ? 'At least 8 characters' : 'Enter your password';
+      setPasswordVisible(false);
       if (actionInput) actionInput.value = mode;
       if (clearMessages) {
         if (notice) notice.hidden = true;
@@ -72,19 +91,12 @@
 
     guest.querySelectorAll('[data-mode-btn]').forEach((b) =>
       b.addEventListener('click', () => setMode(b.dataset.modeBtn)));
-    noteSwitch.addEventListener('click', () => setMode(noteSwitch.dataset.target || 'signup'));
+    noteSwitch?.addEventListener('click', () => setMode(noteSwitch.dataset.target || 'signup'));
     setMode(guest.dataset.mode || 'login', false);
 
     // Show / hide password
-    const toggle = document.getElementById('pw-toggle');
     if (toggle) {
-      toggle.addEventListener('click', () => {
-        const show = pw.type === 'password';
-        pw.type = show ? 'text' : 'password';
-        toggle.querySelector('.pw-show').hidden = show;
-        toggle.querySelector('.pw-hide').hidden = !show;
-        toggle.title = toggle.ariaLabel = show ? 'Hide password' : 'Show password';
-      });
+      toggle.addEventListener('click', () => setPasswordVisible(pw.type === 'password'));
     }
 
     form.addEventListener('submit', async (ev) => {
@@ -108,11 +120,39 @@
       if (data.notice) { notice.textContent = data.notice; notice.hidden = false; }
     });
 
-    // Header button -> jump to panel
-    document.getElementById('focus-login')?.addEventListener('click', () => {
-      document.getElementById('member-access')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      form.email.focus({ preventScroll: true });
+    /* ---------------- Auth popup ---------------- */
+    let lastFocused = null;
+
+    function openAuth(mode) {
+      if (!modal) return;
+      if (mode && copy[mode]) setMode(mode);
+      lastFocused = document.activeElement;
+      modal.hidden = false;
+      body.classList.add('auth-lock');
+      requestAnimationFrame(() => form.email.focus({ preventScroll: true }));
+    }
+
+    function closeAuth() {
+      if (!modal || modal.hidden) return;
+      modal.hidden = true;
+      body.classList.remove('auth-lock');
+      setPasswordVisible(false);
+      if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    }
+
+    document.querySelectorAll('[data-open-auth]').forEach((btn) =>
+      btn.addEventListener('click', () => openAuth(btn.dataset.mode)));
+    modal?.querySelectorAll('[data-auth-close]').forEach((el) =>
+      el.addEventListener('click', closeAuth));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAuth();
     });
+
+    // The server rendered the popup open (error / notice) - lock scroll and focus it
+    if (modal && !modal.hidden) {
+      body.classList.add('auth-lock');
+      requestAnimationFrame(() => form.email.focus({ preventScroll: true }));
+    }
   } else {
     document.getElementById('focus-login')?.addEventListener('click', () =>
       document.getElementById('member-access')?.scrollIntoView({ behavior: 'smooth', block: 'center' }));

@@ -194,6 +194,11 @@ input:focus {
   height: 39px;
   padding: 0 16px;
 }
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
 /* ---------- Hero ---------- */
 .welcome {
@@ -229,7 +234,7 @@ input:focus {
   margin: auto;
   padding: 58px 56px 80px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 386px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 60px;
   align-items: center;
 }
@@ -237,6 +242,26 @@ input:focus {
   max-width: 610px;
   padding-bottom: 35px;
   animation: enter 700ms ease both;
+}
+.welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+.welcome-actions .btn {
+  height: 44px;
+  padding: 0 24px;
+  font-size: 13px;
+}
+.welcome-actions .btn-outline {
+  background: transparent;
+  color: var(--hero-foreground);
+  border-color: var(--hero-border);
+}
+.welcome-actions .btn-outline:hover {
+  background: oklch(1 0 0 / 12%);
+  color: var(--hero-foreground);
 }
 .eyebrow {
   font-size: 10px;
@@ -524,6 +549,92 @@ input:focus {
   overflow-wrap: anywhere;
 }
 
+/* ---------- Auth popup ---------- */
+body.auth-lock {
+  overflow: hidden;
+}
+.auth-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+.auth-backdrop {
+  position: absolute;
+  inset: 0;
+  background: oklch(0.15 0.01 160 / 55%);
+  animation: auth-fade 180ms ease both;
+}
+.auth-dialog {
+  position: relative;
+  width: min(430px, 100%);
+  max-height: calc(100svh - 48px);
+  overflow-y: auto;
+  animation: auth-rise 200ms ease both;
+}
+.auth-dialog .member-panel {
+  animation: none;
+  box-shadow: 0 24px 70px oklch(0.1 0.01 160 / 35%);
+  padding-bottom: 26px;
+}
+.auth-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 1;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--muted-foreground);
+  transition: background-color 150ms, color 150ms;
+}
+.auth-close:hover {
+  background: var(--accent);
+  color: var(--primary);
+}
+.auth-close:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.auth-close svg {
+  width: 16px;
+  height: 16px;
+}
+.panel-switch {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+.panel-switch .btn-link {
+  font-size: 11px;
+  height: auto;
+  padding: 0;
+  display: inline;
+}
+@keyframes auth-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes auth-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ---------- Features ---------- */
 .possibilities {
   max-width: 1376px;
@@ -707,7 +818,6 @@ input:focus {
   }
   .welcome-inner {
     padding: 48px 32px 85px;
-    grid-template-columns: minmax(0, 1fr) 350px;
     gap: 30px;
   }
   .welcome h1 {
@@ -787,6 +897,26 @@ input:focus {
     max-width: 460px;
     justify-self: center;
     padding: 26px;
+  }
+  .auth-modal {
+    padding: 16px 12px;
+  }
+  .auth-dialog {
+    max-height: calc(100svh - 32px);
+  }
+  .auth-dialog .member-panel {
+    padding: 26px 22px 22px;
+  }
+  .auth-close {
+    top: 10px;
+    right: 10px;
+  }
+  .welcome-actions {
+    margin-top: 26px;
+  }
+  .welcome-actions .btn {
+    flex: 1 1 auto;
+    min-width: 140px;
   }
   .welcome-image {
     object-position: 60% center;
