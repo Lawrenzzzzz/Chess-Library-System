@@ -102,6 +102,7 @@ $shelfBooks = all_books($conn);
             </div>
         </div>
     </div>
+    <script src="../assets/js/nav.js"></script>
     <script src="../assets/js/pdf-viewer.js"></script>
     <script src="../assets/js/bookshelf.js"></script>
     <script src="../assets/js/announcements.js"></script>

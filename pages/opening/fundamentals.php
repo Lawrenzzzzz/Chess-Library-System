@@ -59,6 +59,7 @@ $shelves = books_grouped($conn, 'fundamentals');
             </div>
         </div>
     </div>
+    <script src="../../assets/js/nav.js"></script>
     <script src="../../assets/js/pdf-viewer.js"></script>
     <script src="../../assets/js/books.js"></script>
 </body>
